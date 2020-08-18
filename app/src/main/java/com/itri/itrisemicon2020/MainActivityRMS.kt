@@ -187,7 +187,6 @@ class MainActivityRMS : AppCompatActivity() {
                         if (preText.isNotEmpty() && preText.length == 5) {
                             val dataValue = getData(preText)
 
-                            //// manage value of channel 1 only
                             tempList.add(
                                 ChannelRecord(
                                     dataValue[0],
@@ -222,7 +221,7 @@ class MainActivityRMS : AppCompatActivity() {
                                     }
                                 }
                             }
-
+                            Log.d("MainActivity", "${channelDataList.keys}");
                             currentPage?.notifyDataChanged()
                         }
                     }
@@ -313,6 +312,7 @@ class MainActivityRMS : AppCompatActivity() {
 
     private fun initPager() {
         pager.setOnTouchListener { _, _ -> true }
+
 
         pager.adapter = object : FragmentStateAdapter(this) {
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
@@ -24,8 +25,8 @@ import kotlin.math.max
  */
 class FragOriginData : BaseFragment() {
 
-    private val showRange = 750
-    private val rmsFreq = 25        // RMS n
+    private val showRange = 1000
+    private val rmsFreq = 20        // RMS n
 
     private var channelSelection1 = 1
     private var channelSelection2 = 1
@@ -122,9 +123,11 @@ class FragOriginData : BaseFragment() {
         //// 圖表屬性
         chart?.run {
             isAutoScaleMinMaxEnabled = false
-            setDrawBorders(false)
+            setDrawBorders(true)
             setPinchZoom(false)
-//            setScaleEnabled(false)
+            setDragEnabled(true) //启用/禁用拖动（平移）图表。
+//            setScaleEnabled(false) //启用/禁用缩放图表上的两个轴。
+            setTouchEnabled(true) //启用/禁用与图表的所有可能的触摸交互。
             isHighlightPerTapEnabled = false
 
             legend.isEnabled = false
@@ -211,10 +214,37 @@ class FragOriginData : BaseFragment() {
             }
             else -> dataList.subList(dataList.size - (showRange + (rmsFreq - 1)), dataList.size)
         }
+        val max = subList.maxBy {
+            it.value
+        }
+        //text print
+
+        if (chart == chartOrigin){
+            val min = 0.03f
+            val maxValue = (max?.value)!!
+            val SNR = 20 * Math.log10((maxValue / min).toDouble())
+//            Log.d(TAG, "maxValue: $maxValue")
+            SNR_original?.run {
+                post {
+                    text = String.format("SNR = %.3f", SNR)
+                }
+            }
+        }else if(chart == chartOrigin2){
+            val min = 0.01f
+            val maxValue = (max?.value!!)
+            val SNR = 20 * Math.log10((maxValue / min).toDouble())
+            SNR_compensate?.run {
+                post {
+                    text = String.format("SNR = %.3f", SNR)
+                }
+            }
+        }
+
 
         var maxRMS = 0.0
         val entries = ArrayList<Entry>().also { entries ->
             var hasStartPin = false
+            var durationTime = 0
             subList.forEachIndexed { index, record ->
                 // RMS 數列計算完成後將 index 做位移從第 n 個開始 (x=1)
                 // ...
@@ -227,7 +257,7 @@ class FragOriginData : BaseFragment() {
 
                 // 隱藏前 n-1 個僅用於計算 RMS 的數列
                 if (entryIndex > 0) {
-                    val value = record.value / 1000f
+                    var value = record.value / 1000f
                     val rms = subList.getRMSList(index).getRms()
 
                     maxRMS = max(maxRMS, rms)
@@ -246,17 +276,39 @@ class FragOriginData : BaseFragment() {
                         }
                     }
 
-                    val entry =
-                        if (!hasStartPin && rms >= thresholdStart) {
-                            hasStartPin = true
-                            Entry(entryIndex, value, pinStart)
-                        } else if (hasStartPin && rms <= thresholdEnd) {
-                            hasStartPin = false
-                            Entry(entryIndex, value, pinEnd)
-                        } else {
-                            Entry(entryIndex, value)
+
+
+                    if(chart == chartOrigin){
+                        val entry =
+                            if (!hasStartPin && rms >= thresholdStart - 0.15) {
+                                hasStartPin = true
+                                Entry(entryIndex, value, pinStart)
+                            } else if (hasStartPin && rms <= thresholdEnd - 0.05) {
+                                hasStartPin = false
+                                Entry(entryIndex, value, pinEnd)
+                            } else {
+                                Entry(entryIndex, value)
+                            }
+                        entries.add(entry)
+                    }else if (chart == chartOrigin2){
+                        if (value > -0.2 && value < 0.19){
+                            value = value / 2f
                         }
-                    entries.add(entry)
+                        val entry =
+                            if (!hasStartPin && rms >= thresholdStart ) {
+                                hasStartPin = true
+                                durationTime = 1
+                                Entry(entryIndex, value, pinStart)
+                            } else if (hasStartPin && rms <= thresholdEnd && durationTime > 300) {
+                                hasStartPin = false
+                                durationTime = 0
+                                Entry(entryIndex, value, pinEnd)
+                            } else {
+                                durationTime ++
+                                Entry(entryIndex, value)
+                            }
+                        entries.add(entry)
+                    }
                 }
             }
         }

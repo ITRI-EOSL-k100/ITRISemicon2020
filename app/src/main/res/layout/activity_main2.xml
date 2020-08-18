@@ -15,13 +15,12 @@
             android:id="@+id/textDeviceInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="16dp"
             android:textColor="#4A4"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/buttonScan"
-            app:layout_constraintEnd_toStartOf="@id/buttonScan"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/buttonScan"
+            app:layout_constraintStart_toStartOf="@+id/buttonScan"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="DeviceName\n02:00:00:00:00:00" />
 
         <Button
@@ -49,18 +48,18 @@
             android:id="@+id/pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="W,1.25:1"
-            app:layout_constraintTop_toBottomOf="@id/buttonScan"
+            app:layout_constraintDimensionRatio="W,1.2:1"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/buttonScan" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabRippleColor="#C9A"
+            app:layout_constraintTop_toBottomOf="@id/pager"
             app:tabBackground="@drawable/bg_tab"
-            app:layout_constraintTop_toBottomOf="@id/pager"/>
+            app:tabRippleColor="#C9A" />
 
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/toggleRecord"
@@ -120,5 +119,14 @@
             app:layout_constraintBottom_toBottomOf="@id/editEmail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/editEmail" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="115dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonScan"
+            app:layout_constraintEnd_toStartOf="@+id/buttonScan"
+            app:srcCompat="@drawable/itri_logo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
