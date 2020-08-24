@@ -79,8 +79,13 @@ class FragPlayOrder : BaseFragment() {
         val channelSortedSet = TreeSet<ChannelTimeInfo>(kotlin.Comparator { o1, o2 -> o1.time.compareTo(o2.time) })
 
         channelDataList?.entries?.forEach { entry ->
-            // 啟動點
+           /* // 啟動點 first
             entry.value.firstOrNull { record -> record.value / 1000f > thresholdStart }?.let { record ->
+                // 找到啟動點，將 channel-時間加入 treeMap
+                channelSortedSet.add(ChannelTimeInfo(entry.key, record.time))
+            }*/
+            // 啟動點 last
+            entry.value.lastOrNull { record -> record.value / 1000f > thresholdStart }?.let { record ->
                 // 找到啟動點，將 channel-時間加入 treeMap
                 channelSortedSet.add(ChannelTimeInfo(entry.key, record.time))
             }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="4dp">
 
     <TextView
@@ -64,8 +64,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/frameRequired"
         app:layout_constraintEnd_toEndOf="@id/frameRequired"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/frameRequired"
         app:layout_constraintTop_toTopOf="@id/frameRequired"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/bg_m" />
 
     <ImageView
@@ -73,6 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="4dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintDimensionRatio="w, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/frameCurrent"
@@ -101,4 +104,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelOrderRequired" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="打擊初速 : "
+        app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberPassword"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="仰角 : "
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editTextNumberPassword"
+        android:layout_width="108dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="numberPassword"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStart" />
+
+    <EditText
+        android:id="@+id/editTextNumberPassword2"
+        android:layout_width="108dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="numberPassword"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:text="本次資料儲存"
+        app:layout_constraintStart_toEndOf="@+id/editTextNumberPassword2"
+        app:layout_constraintTop_toTopOf="@+id/editTextNumberPassword2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

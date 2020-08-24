@@ -3,7 +3,6 @@ package com.itri.itrisemicon2020.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -13,7 +12,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.itri.itrisemicon2020.R
 import com.itri.itrisemicon2020.data.ChannelRecord
-import com.itri.itrisemicon2020.rms.continuousRMS
 import kotlinx.android.synthetic.main.frag_full_chart.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -67,7 +65,7 @@ class FragFullChart : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         charts.clear()
-        charts.addAll(arrayOf(chart, chart2, chart3, chart4, chart5, chart6))
+        charts.addAll(arrayOf(chart1, chart2, chart3, chart4, chart5, chart6))
         initChart(charts)
     }
 
@@ -167,7 +165,47 @@ class FragFullChart : BaseFragment() {
         }
         val entries = ArrayList<Entry>().also { entries ->
             subList.forEachIndexed { index, record ->
-                entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                //channrl 1
+                if (chart == chart1 && checkBox1.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart1 && !checkBox1.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
+
+                //channrl 2
+                if (chart == chart2 && checkBox2.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart2 && !checkBox2.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
+
+                //channrl 3
+                if (chart == chart3 && checkBox3.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart3 && !checkBox3.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
+
+                //channrl 4
+                if (chart == chart4 && checkBox4.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart4 && !checkBox4.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
+
+                //channrl 5
+                if (chart == chart5 && checkBox5.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart5 && !checkBox5.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
+
+                //channrl 6
+                if (chart == chart6 && checkBox6.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value / 1000f))
+                }else if (chart == chart6 && !checkBox6.isChecked){
+                    entries.add(Entry(index.toFloat() + 1, record.value * 0f))
+                }
             }
         }
         val lineData = LineData(generateLineDataSet(entries, "v"))
