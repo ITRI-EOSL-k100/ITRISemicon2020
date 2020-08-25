@@ -276,39 +276,61 @@ class FragOriginData : BaseFragment() {
                         }
                     }
 
+                    var toggleIsCheck = toggleStartAndStop.isChecked
+
+                            if(chart == chartOrigin){
+                                val entry =
+                                    if (!hasStartPin && rms >= thresholdStart - 0.15 && toggleIsCheck ) {
+                                        hasStartPin = true
+                                        Entry(entryIndex, value, pinStart)
+                                    } else if (hasStartPin && rms <= thresholdEnd - 0.05 && toggleIsCheck) {
+                                        hasStartPin = false
+                                        Entry(entryIndex, value, pinEnd)
+                                    } else if (!toggleIsCheck) {
+                                        hasStartPin = false
+                                        Entry(entryIndex, value)
+                                    }else{
+                                        Entry(entryIndex, value)
+                                    }
+                                entries.add(entry)
+                            }else if (chart == chartOrigin2){
+                                if (value > -0.2 && value < 0.19){
+                                    value = value / 2f
+                                }
+                                val entry =
+                                    if (!hasStartPin && rms >= thresholdStart && toggleIsCheck) {
+                                        hasStartPin = true
+                                        durationTime = 1
+                                        Entry(entryIndex, value, pinStart)
+                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 300 && toggleIsCheck) {
+                                        hasStartPin = false
+                                        durationTime = 0
+                                        Entry(entryIndex, value, pinEnd)
+                                    } else if(!toggleIsCheck) {
+                                        durationTime ++
+                                        Entry(entryIndex, value)
+                                    }else{
+                                        durationTime ++
+                                        Entry(entryIndex, value)
+                                    }
+                                entries.add(entry)
+                            }
+                            /*
+                            if(chart == chartOrigin){
+                                hasStartPin = false
+                                val entry = Entry(entryIndex, value)
+                                entries.add(entry)
+                            }else if (chart == chartOrigin2){
+                                if (value > -0.2 && value < 0.19){
+                                    value = value / 2f
+                                }
+                                val entry = Entry(entryIndex, value)
+
+                                entries.add(entry)
+                            }*/
 
 
-                    if(chart == chartOrigin){
-                        val entry =
-                            if (!hasStartPin && rms >= thresholdStart - 0.15) {
-                                hasStartPin = true
-                                Entry(entryIndex, value, pinStart)
-                            } else if (hasStartPin && rms <= thresholdEnd - 0.05) {
-                                hasStartPin = false
-                                Entry(entryIndex, value, pinEnd)
-                            } else {
-                                Entry(entryIndex, value)
-                            }
-                        entries.add(entry)
-                    }else if (chart == chartOrigin2){
-                        if (value > -0.2 && value < 0.19){
-                            value = value / 2f
-                        }
-                        val entry =
-                            if (!hasStartPin && rms >= thresholdStart ) {
-                                hasStartPin = true
-                                durationTime = 1
-                                Entry(entryIndex, value, pinStart)
-                            } else if (hasStartPin && rms <= thresholdEnd && durationTime > 300) {
-                                hasStartPin = false
-                                durationTime = 0
-                                Entry(entryIndex, value, pinEnd)
-                            } else {
-                                durationTime ++
-                                Entry(entryIndex, value)
-                            }
-                        entries.add(entry)
-                    }
+
                 }
             }
         }

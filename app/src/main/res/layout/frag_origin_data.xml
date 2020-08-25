@@ -272,6 +272,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:checked="true"
         android:textOff="關閉啟動偵測"
         android:textOn="開啟啟動偵測"
         app:layout_constraintStart_toStartOf="@+id/chartOrigin2"
