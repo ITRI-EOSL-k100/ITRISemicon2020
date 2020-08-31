@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.util.toRange
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -74,6 +75,15 @@ class FragOriginData : BaseFragment() {
 
     override fun onThresholdEndChanged(threshold: Float) {
         super.onThresholdEndChanged(threshold)
+
+        if (!receiving) {
+            showChart(chartOrigin, channelSelection1)
+            showChart(chartOrigin2, channelSelection2)
+        }
+    }
+
+    override fun onThresholdRangeChanged(threshold: Float) {
+        super.onThresholdRangeChanged(threshold)
 
         if (!receiving) {
             showChart(chartOrigin, channelSelection1)
@@ -221,7 +231,7 @@ class FragOriginData : BaseFragment() {
 
         if (chart == chartOrigin){
             val min = 0.03f
-            val maxValue = (max?.value)!!
+            val maxValue = ((max?.value)!! -1500) / 1000f
             val SNR = 20 * Math.log10((maxValue / min).toDouble())
 //            Log.d(TAG, "maxValue: $maxValue")
             SNR_original?.run {
@@ -231,7 +241,7 @@ class FragOriginData : BaseFragment() {
             }
         }else if(chart == chartOrigin2){
             val min = 0.01f
-            val maxValue = (max?.value!!)
+            val maxValue = ((max?.value)!! -1500) / 1000f
             val SNR = 20 * Math.log10((maxValue / min).toDouble())
             SNR_compensate?.run {
                 post {
@@ -294,7 +304,7 @@ class FragOriginData : BaseFragment() {
                                     }
                                 entries.add(entry)
                             }else if (chart == chartOrigin2){
-                                if (value > -0.2 && value < 0.19){
+                                if (value > -1*thresholdRange && value < thresholdRange){
                                     value = value / 2f
                                 }
                                 val entry =
@@ -302,7 +312,7 @@ class FragOriginData : BaseFragment() {
                                         hasStartPin = true
                                         durationTime = 1
                                         Entry(entryIndex, value, pinStart)
-                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 300 && toggleIsCheck) {
+                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 150 && toggleIsCheck) {
                                         hasStartPin = false
                                         durationTime = 0
                                         Entry(entryIndex, value, pinEnd)

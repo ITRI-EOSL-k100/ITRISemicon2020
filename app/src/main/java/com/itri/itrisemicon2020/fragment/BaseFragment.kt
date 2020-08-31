@@ -21,6 +21,7 @@ abstract class BaseFragment: Fragment() {
 
     protected var thresholdStart: Float = 0f
     protected var thresholdEnd: Float = 0f
+    protected var thresholdRange : Float = 0f
 
     protected var receiving = false
 
@@ -49,6 +50,7 @@ abstract class BaseFragment: Fragment() {
 
         thresholdStart = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(MainActivityRMS.Pref_Threshold_Start, MainActivityRMS.Default_Threshold_Start)
         thresholdEnd = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(MainActivityRMS.Pref_Threshold_End, MainActivityRMS.Default_Threshold_End)
+        thresholdRange = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(MainActivityRMS.Pref_Threshold_Range, MainActivityRMS.Default_Threshold_Range)
     }
 
     fun bindList(list: List<Record>, channelList: HashMap<Int, LinkedList<ChannelRecord>>) {
@@ -85,4 +87,9 @@ abstract class BaseFragment: Fragment() {
     open fun onThresholdEndChanged(threshold: Float) {
         this.thresholdEnd = threshold
     }
+
+    open fun onThresholdRangeChanged(threshold: Float){
+        this.thresholdRange = threshold
+    }
+
 }

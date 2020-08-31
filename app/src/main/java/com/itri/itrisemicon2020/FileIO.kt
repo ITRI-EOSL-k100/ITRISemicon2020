@@ -9,6 +9,7 @@ import com.itri.itrisemicon2020.data.Record
 //import com.itri.itrisemicon2020.data.Record
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.StringBuilder
 
 /**
  * Created by HabaCo on 2020/5/21.
@@ -53,15 +54,37 @@ class FileIO(private val mContext: Context) {
                 outputStream.appendln("#,#")   // 2
                 outputStream.appendln("#,#")   // 3
                 outputStream.appendln("#,#")   // 4
-                outputStream.appendln("TimeInMillis,Ampl") // 5
+                outputStream.appendln("TimeInMillis,channel-1, channel-2, channel-3, channel-4, channel-5, channel-6") // 5
 
-                //// data store index start at 6
+              /*  //// data store index start at 6
                 dataList.forEach { record ->
                     if (record is ChannelRecord) {
-                        outputStream.appendln("${record.time},${record.channel}${record.value + 1500}")
+                        outputStream.appendln("${record.time},${record.channel},${record.value}")
                     } else {
                         outputStream.appendln("${record.time},${record.value}")
                     }
+                }*/
+                ////6 channel data store index start at 6
+                dataList.forEach { record ->
+                    if (record is ChannelRecord) {
+                        if (record.channel == 1){
+                            outputStream.append("${record.time},${record.value},")
+                        }
+                        else if (record.channel == 2 ){
+                            outputStream.append("${record.value},")
+                        }else if(record.channel == 3){
+                            outputStream.append("${record.value},")
+                        }else if(record.channel == 4){
+                            outputStream.append("${record.value},")
+                        }else if (record.channel == 5 ){
+                            outputStream.append("${record.value},")
+                        }else if (record.channel == 6){
+                            outputStream.appendln("${record.value}")
+                        }
+
+                    } /*else {
+                        outputStream.appendln("${record.time},${record.value}")
+                    }*/
                 }
                 outputStream.close()
                 Toast.makeText(mContext, "檔案儲存位置: ${file.absolutePath}", Toast.LENGTH_LONG).show()

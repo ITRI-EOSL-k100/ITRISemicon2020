@@ -95,11 +95,13 @@ class FragPlayOrder : BaseFragment() {
         val animationDrawable = AnimationDrawable().apply {
             isOneShot = true
             channelSortedSet.forEach { channelTimeInfo ->
-                ContextCompat.getDrawable(requireContext(), muscleMap[channelTimeInfo.ch] ?: 0)
+                ContextCompat.getDrawable(requireContext(), muscleMap[channelTimeInfo.ch] ?: R.drawable.b)
+//                ContextCompat.getDrawable(requireContext(), muscleMap[channelTimeInfo.ch] ?: 0)
                     ?.let { addFrame(it, intervalPerFrame) }
 //                Log.i(">>>", "order: ${channelTimeInfo.ch} -- ${channelTimeInfo.time}")
                 if (orderStringBuilder.isNotEmpty())
                     orderStringBuilder.append("\n")
+                if (muscleNameMap[channelTimeInfo.ch] != null)
                 orderStringBuilder.append("${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
             }
         }

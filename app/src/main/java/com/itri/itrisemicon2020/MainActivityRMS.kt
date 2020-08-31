@@ -51,6 +51,9 @@ class MainActivityRMS : AppCompatActivity() {
 
         const val Pref_Threshold_End = "threshold-End"
         const val Default_Threshold_End = 0.001f
+
+        const val Pref_Threshold_Range = "threshold-Range"
+        const val Default_Threshold_Range = 0.2f
     }
 
     //// 節省時間，使用過時的 ProgressDialog
@@ -479,6 +482,7 @@ class MainActivityRMS : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add(Menu.NONE, 1, Menu.NONE, Pref_Threshold_Start.toUpperCase(Locale.getDefault()))
         menu?.add(Menu.NONE, 2, Menu.NONE, Pref_Threshold_End.toUpperCase(Locale.getDefault()))
+        menu?.add(Menu.NONE, 3, Menu.NONE, Pref_Threshold_Range.toUpperCase(Locale.getDefault()))
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -540,6 +544,41 @@ class MainActivityRMS : AppCompatActivity() {
                             .apply()
 
                         currentPage?.onThresholdEndChanged(newThreshold)
+                    } catch (e: NumberFormatException) {
+                        e.printStackTrace()
+                    }
+                    dismiss()
+                }
+                findViewById<View>(R.id.buttonCancel).setOnClickListener {
+                    dismiss()
+                }
+            }.also {
+                it.show()
+            }
+        }else if(item.itemId == 3){
+            //getSharePreference Setting
+            val threshold = getPreferences(Context.MODE_PRIVATE)
+                .getFloat(Pref_Threshold_Range, 0.2f)
+            // Dialog Setting
+            Dialog(this).apply {
+                setContentView(R.layout.dialog_input)
+                findViewById<TextView>(R.id.title).text = "設定閥值 (雜訊抑制)"
+                findViewById<TextView>(R.id.edit).text = threshold.toString()
+                findViewById<View>(R.id.buttonOK).setOnClickListener {
+
+                    val im: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    im.hideSoftInputFromWindow(it.windowToken, 0)
+
+                    val input = findViewById<TextView>(R.id.edit).text.toString()
+
+                    try {
+                        val newThreshold = input.toFloat()
+                        getPreferences(Context.MODE_PRIVATE).edit()
+                            .putFloat(Pref_Threshold_Range, newThreshold)
+                            .apply()
+
+                        currentPage?.onThresholdRangeChanged(newThreshold)
                     } catch (e: NumberFormatException) {
                         e.printStackTrace()
                     }
