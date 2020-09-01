@@ -1,14 +1,18 @@
 package com.itri.itrisemicon2020.fragment
 
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.google.android.material.tabs.TabLayout
 import com.itri.itrisemicon2020.R
 import kotlinx.android.synthetic.main.frag_play_order.*
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.concurrent.schedule
 
 /**
  * Created by HabaCo on 2020/7/20.
@@ -99,13 +103,13 @@ class FragPlayOrder : BaseFragment() {
 //                ContextCompat.getDrawable(requireContext(), muscleMap[channelTimeInfo.ch] ?: 0)
                     ?.let { addFrame(it, intervalPerFrame) }
 //                Log.i(">>>", "order: ${channelTimeInfo.ch} -- ${channelTimeInfo.time}")
-                if (orderStringBuilder.isNotEmpty())
-                    orderStringBuilder.append("\n")
-                if (muscleNameMap[channelTimeInfo.ch] != null)
-                orderStringBuilder.append("${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
+                //revise data \n
+                if(muscleNameMap[channelTimeInfo.ch] != null){
+                    orderStringBuilder.appendln("${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
+                }
             }
         }
-        labelOrderCurrent?.run {
+        labelOrderCurrent1?.run {
             post {
                 text = orderStringBuilder.toString()
             }
@@ -127,7 +131,7 @@ class FragPlayOrder : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var stringArray = arrayOf<TextView>(labelOrderCurrent1, labelOrderCurrent2)
         val defaultOrder = intArrayOf(6, 1, 5, 3, 2, 4)
         val orderStringBuilder = StringBuilder()
         drawableRequired = AnimationDrawable().apply {
@@ -146,10 +150,15 @@ class FragPlayOrder : BaseFragment() {
         buttonStart?.setOnClickListener {
             drawableRequired.stop()
             drawableRequired.start()
-
+            var i = 0
             if (frameCurrent?.drawable is AnimationDrawable) {
                 (frameCurrent?.drawable as AnimationDrawable).stop()
                 (frameCurrent?.drawable as AnimationDrawable).start()
+                Timer("countdown", true).schedule(1000) {
+                    stringArray[i].setTextColor(Color.RED)
+                    i++
+                }
+
             }
         }
 

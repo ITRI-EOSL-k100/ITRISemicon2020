@@ -94,6 +94,12 @@ class FragOriginData : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        buttonAuto.setOnClickListener {
+            //reset threshold
+            thresholdStart = textMaxRms.text.toString().toFloat() + 0.2f
+            onThresholdStartChanged(thresholdStart)
+        }
+
         initChart(chartOrigin)
         initChart(chartOrigin2)
 
@@ -176,6 +182,7 @@ class FragOriginData : BaseFragment() {
         }
     }
 
+
     private fun generateLineDataSet(entries: ArrayList<Entry>, label: String = "v") =
         LineDataSet(entries, label).apply {
             color = themeColor
@@ -184,6 +191,7 @@ class FragOriginData : BaseFragment() {
             setDrawIcons(true)
             isHighlightEnabled = false
         }
+
 
     private fun showChart(chart: LineChart?, channelDataIndex: Int) {
         val channelDataList = this.channelDataList?.get(channelDataIndex)
@@ -251,6 +259,7 @@ class FragOriginData : BaseFragment() {
         }
 
 
+
         var maxRMS = 0.0
         val entries = ArrayList<Entry>().also { entries ->
             var hasStartPin = false
@@ -276,6 +285,7 @@ class FragOriginData : BaseFragment() {
                         textMaxRms?.run {
                             post {
                                 text = String.format("%.4f", maxRMS)
+
                             }
                         }
                     } else if (chart == chartOrigin2) {
@@ -293,7 +303,7 @@ class FragOriginData : BaseFragment() {
                                     if (!hasStartPin && rms >= thresholdStart - 0.15 && toggleIsCheck ) {
                                         hasStartPin = true
                                         Entry(entryIndex, value, pinStart)
-                                    } else if (hasStartPin && rms <= thresholdEnd - 0.05 && toggleIsCheck) {
+                                    } else if (hasStartPin && rms <= thresholdEnd - 0.01 && toggleIsCheck) {
                                         hasStartPin = false
                                         Entry(entryIndex, value, pinEnd)
                                     } else if (!toggleIsCheck) {
@@ -312,7 +322,7 @@ class FragOriginData : BaseFragment() {
                                         hasStartPin = true
                                         durationTime = 1
                                         Entry(entryIndex, value, pinStart)
-                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 150 && toggleIsCheck) {
+                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 50 && toggleIsCheck) {
                                         hasStartPin = false
                                         durationTime = 0
                                         Entry(entryIndex, value, pinEnd)

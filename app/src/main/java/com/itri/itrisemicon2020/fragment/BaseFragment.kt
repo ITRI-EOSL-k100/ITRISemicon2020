@@ -2,6 +2,7 @@ package com.itri.itrisemicon2020.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,7 @@ abstract class BaseFragment: Fragment() {
 
     open fun onThresholdStartChanged(threshold: Float) {
         this.thresholdStart = threshold
+        Log.d(TAG, "thresholdStart: ${threshold}");
     }
 
     open fun onThresholdEndChanged(threshold: Float) {

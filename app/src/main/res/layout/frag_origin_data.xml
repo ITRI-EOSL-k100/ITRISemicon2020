@@ -278,4 +278,13 @@
         app:layout_constraintStart_toStartOf="@+id/chartOrigin2"
         app:layout_constraintTop_toBottomOf="@+id/chartOrigin2" />
 
+    <Button
+        android:id="@+id/buttonAuto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Auto Threshold"
+        android:textSize="8sp"
+        app:layout_constraintStart_toEndOf="@+id/toggleStartAndStop"
+        app:layout_constraintTop_toTopOf="@+id/toggleStartAndStop" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

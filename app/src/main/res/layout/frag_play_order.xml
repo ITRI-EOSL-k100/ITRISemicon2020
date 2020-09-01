@@ -38,7 +38,7 @@
         app:srcCompat="@drawable/b" />
 
     <TextView
-        android:id="@+id/labelOrderCurrent"
+        android:id="@+id/labelOrderCurrent1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -112,7 +112,7 @@
         android:layout_marginStart="16dp"
         android:text="打擊初速 : "
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberPassword"
-        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent" />
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent1" />
 
     <TextView
         android:id="@+id/textView2"
@@ -150,4 +150,11 @@
         android:text="本次資料儲存"
         app:layout_constraintStart_toEndOf="@+id/editTextNumberPassword2"
         app:layout_constraintTop_toTopOf="@+id/editTextNumberPassword2" />
+
+    <TextView
+        android:id="@+id/labelOrderCurrent2"
+        android:layout_width="66dp"
+        android:layout_height="18dp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent1"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

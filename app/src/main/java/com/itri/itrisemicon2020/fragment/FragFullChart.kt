@@ -49,7 +49,7 @@ class FragFullChart : BaseFragment() {
             val dataList = channelDataList?.get(index + 1)
             showChart(true, chart, dataList)
         }
-        enabledScaled(charts)
+        enabledScaled(charts, false)
     }
 
 //    override fun onThresholdChanged(threshold: Float) {
@@ -107,8 +107,8 @@ class FragFullChart : BaseFragment() {
 
                 axisLeft.run {
                     isEnabled = true
-                    axisMaximum = 2.5f
-                    axisMinimum = -2.5f
+                    axisMaximum = 1.5f
+                    axisMinimum = -1.5f
                     gridColor = Color.TRANSPARENT
                     setLabelCount(7, true)
                     valueFormatter = object : ValueFormatter() {
