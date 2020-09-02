@@ -6,6 +6,37 @@
     android:layout_height="wrap_content"
     android:padding="4dp">
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonStart">
+
+        <RadioButton
+            android:id="@+id/radioButtonHard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hard"
+            android:textSize="8sp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMedian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Median"
+            android:textSize="8sp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonEasy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Easy"
+            android:textSize="8sp" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/labelCurrent"
         android:layout_width="wrap_content"
@@ -39,12 +70,12 @@
 
     <TextView
         android:id="@+id/labelOrderCurrent1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
         android:layout_marginTop="4dp"
         android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/frameCurrent"
         app:layout_constraintStart_toStartOf="@id/frameCurrent"
         app:layout_constraintTop_toBottomOf="@id/frameCurrent" />
 
@@ -83,15 +114,65 @@
         app:srcCompat="@drawable/b" />
 
     <TextView
-        android:id="@+id/labelOrderRequired"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/labelOrderRequired1"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
         android:layout_marginTop="4dp"
         android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@id/frameRequired"
         app:layout_constraintStart_toStartOf="@id/frameRequired"
         app:layout_constraintTop_toBottomOf="@id/frameRequired" />
+
+    <TextView
+        android:id="@+id/labelOrderRequired2"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired1" />
+
+    <TextView
+        android:id="@+id/labelOrderRequired3"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderRequired2"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired2" />
+
+    <TextView
+        android:id="@+id/labelOrderRequired4"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderRequired2"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired3" />
+
+    <TextView
+        android:id="@+id/labelOrderRequired5"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderRequired4"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired4" />
+
+    <TextView
+        android:id="@+id/labelOrderRequired6"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:lineSpacingMultiplier=".8"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderRequired5"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired5" />
 
     <Button
         android:id="@+id/buttonStart"
@@ -102,8 +183,9 @@
         android:text="接收資料後擷取"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelOrderRequired" />
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent6" />
 
     <TextView
         android:id="@+id/textView"
@@ -153,8 +235,60 @@
 
     <TextView
         android:id="@+id/labelOrderCurrent2"
-        android:layout_width="66dp"
+        android:layout_width="wrap_content"
         android:layout_height="18dp"
+        android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent1"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent1" />
+
+    <TextView
+        android:id="@+id/labelOrderCurrent3"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent2"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent2" />
+
+    <TextView
+        android:id="@+id/labelOrderCurrent4"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent3"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent3" />
+
+    <TextView
+        android:id="@+id/labelOrderCurrent5"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent4"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent4" />
+
+    <TextView
+        android:id="@+id/labelOrderCurrent6"
+        android:layout_width="0dp"
+        android:layout_height="18dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent5"
+        app:layout_constraintTop_toBottomOf="@+id/labelOrderCurrent5" />
+
+    <TextView
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mode "
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/radioGroup" />
+
+    <ImageView
+        android:id="@+id/imageViewMode"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/easy" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

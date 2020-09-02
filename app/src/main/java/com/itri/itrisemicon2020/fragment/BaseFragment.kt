@@ -73,6 +73,7 @@ abstract class BaseFragment: Fragment() {
 
     open fun onDataReceiveStart() {
         receiving = true
+
     }
 
     open fun onDataChanged() { }

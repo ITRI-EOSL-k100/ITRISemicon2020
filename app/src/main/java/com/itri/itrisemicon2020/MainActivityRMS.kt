@@ -167,7 +167,6 @@ class MainActivityRMS : AppCompatActivity() {
                     }
                 }
             }
-
             onDataIn = { bytes ->
                 if (toggleRecord?.isEnabled == true) {
 
@@ -211,7 +210,7 @@ class MainActivityRMS : AppCompatActivity() {
                                 )
                             }
                         }
-
+//                        Log.d("fullDataList", "fullDataList: ${fullDataList.size}");//10s 5186 筆 data
                         fullDataList.addAll(tempList)
 
                         if (fullDataList.size > 25) {
