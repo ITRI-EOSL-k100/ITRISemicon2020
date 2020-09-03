@@ -6,10 +6,12 @@ import android.view.View
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.DataSet
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.itri.itrisemicon2020.R
 import com.itri.itrisemicon2020.data.ChannelRecord
 import kotlinx.android.synthetic.main.frag_full_chart.*
@@ -38,7 +40,11 @@ class FragFullChart : BaseFragment() {
         super.onDataChanged()
 
         charts.forEachIndexed { index, chart ->
-            showChart(true, chart, channelDataList?.get(index + 1))
+            if (chart != chart7){
+                showChart(true, chart, channelDataList?.get(index + 1))
+            }else{
+                showChart(true, chart, channelDataList?.get(1))
+            }
         }
     }
 
@@ -46,8 +52,11 @@ class FragFullChart : BaseFragment() {
         super.onDataChangedComplete()
 
         charts.forEachIndexed { index, chart ->
-            val dataList = channelDataList?.get(index + 1)
-            showChart(true, chart, dataList)
+            if (chart != chart7){
+                showChart(true, chart, channelDataList?.get(index + 1))
+            }else{
+                showChart(true, chart, channelDataList?.get(1))
+            }
         }
         enabledScaled(charts, false)
     }
@@ -65,7 +74,8 @@ class FragFullChart : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         charts.clear()
-        charts.addAll(arrayOf(chart1, chart2, chart3, chart4, chart5, chart6))
+        //inital chart setting
+        charts.addAll(arrayOf(chart1, chart2, chart3, chart4, chart5, chart6, chart7))
         initChart(charts)
     }
 
@@ -134,6 +144,26 @@ class FragFullChart : BaseFragment() {
             this.setDrawValues(false)
             this.isHighlightEnabled = false
         }
+
+    private fun generateLineDataSet(entries1: ArrayList<Entry>, entries2: ArrayList<Entry>, label: String) : ArrayList<ILineDataSet> {
+        var dataSets = ArrayList<ILineDataSet>()
+        var set1 = LineDataSet(entries1, label).apply {
+            color = Color.RED
+            this.setDrawCircles(false)
+            this.setDrawValues(false)
+            this.isHighlightEnabled = false
+        }
+        var set2 = LineDataSet(entries2, label).apply {
+            color = Color.BLUE
+            this.setDrawCircles(false)
+            this.setDrawValues(false)
+            this.isHighlightEnabled = false
+        }
+        dataSets.add(set1)
+        dataSets.add(set2)
+        return dataSets
+    }
+
 
     private fun showChart(
         forceUpdate: Boolean = false, chart: LineChart?, channelDataList: LinkedList<ChannelRecord>?,
@@ -206,9 +236,22 @@ class FragFullChart : BaseFragment() {
                 }else if (chart == chart6 && !checkBox6.isChecked){
                     entries.add(Entry(index.toFloat() + 1, record.value * 0f))
                 }
+                //channrl 7
+                if (chart == chart7){
+                    entries.add(Entry(index.toFloat() + 1, record.value/ 1000f))
+                }
             }
         }
-        val lineData = LineData(generateLineDataSet(entries, "v"))
+        val lineData = if(chart != chart7){
+            LineData(generateLineDataSet(entries, "v"))
+        }else{
+            val entries2 = ArrayList<Entry>().also { entries ->
+                subList.forEachIndexed { index, record ->
+                        entries.add(Entry(index.toFloat() + 1, record.value / 1000f +0.5f))
+                }
+            }
+            LineData(generateLineDataSet(entries, entries2,  "v"))
+        }
         chart?.run {
             post {
                 val lowX = chart.lowestVisibleX
