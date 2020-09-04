@@ -26,6 +26,7 @@ import kotlin.math.max
  */
 class FragOriginData : BaseFragment() {
 
+    private var ratio: Float = 2f
     private val showRange = 1000
     private val rmsFreq = 20        // RMS n
 
@@ -91,6 +92,15 @@ class FragOriginData : BaseFragment() {
         }
     }
 
+    override fun onDurationChanged(duration: Float) {
+        super.onDurationChanged(duration)
+
+        if (!receiving) {
+            showChart(chartOrigin, channelSelection1)
+            showChart(chartOrigin2, channelSelection2)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -98,6 +108,10 @@ class FragOriginData : BaseFragment() {
             //reset threshold
             thresholdStart = textMaxRms.text.toString().toFloat() + 0.2f
             onThresholdStartChanged(thresholdStart)
+
+            thresholdRange = textMaxRms.text.toString().toFloat() * 0.5f * 1000f
+            onThresholdRangeChanged(thresholdRange)
+            ratio = 3f
         }
 
         initChart(chartOrigin)
@@ -315,14 +329,14 @@ class FragOriginData : BaseFragment() {
                                 entries.add(entry)
                             }else if (chart == chartOrigin2){
                                 if (value > -1*thresholdRange && value < thresholdRange){
-                                    value = value / 2f
+                                    value = value / ratio
                                 }
                                 val entry =
                                     if (!hasStartPin && rms >= thresholdStart && toggleIsCheck) {
                                         hasStartPin = true
                                         durationTime = 1
                                         Entry(entryIndex, value, pinStart)
-                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > 50 && toggleIsCheck) {
+                                    } else if (hasStartPin && rms <= thresholdEnd && durationTime > duration && toggleIsCheck) {
                                         hasStartPin = false
                                         durationTime = 0
                                         Entry(entryIndex, value, pinEnd)
