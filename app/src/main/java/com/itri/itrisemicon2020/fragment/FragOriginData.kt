@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.itri.itrisemicon2020.MainActivityRMS
 import com.itri.itrisemicon2020.R
 import com.itri.itrisemicon2020.data.ChannelRecord
 import com.itri.itrisemicon2020.rms.getRMSList
@@ -104,15 +105,29 @@ class FragOriginData : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonAuto.setOnClickListener {
-            //reset threshold
-            thresholdStart = textMaxRms.text.toString().toFloat() + 0.2f
-            onThresholdStartChanged(thresholdStart)
 
-            thresholdRange = textMaxRms.text.toString().toFloat() * 0.5f * 1000f
-            onThresholdRangeChanged(thresholdRange)
-            ratio = 3f
+        toggleAuto.setOnCheckedChangeListener { compoundButton, b ->
+            if (compoundButton.isChecked){
+                //reset threshold
+                thresholdStart = textMaxRms.text.toString().toFloat() + 0.2f
+                onThresholdStartChanged(thresholdStart)
+
+                thresholdRange = textMaxRms.text.toString().toFloat() * 0.5f
+                onThresholdRangeChanged(thresholdRange)
+                ratio = 5f
+                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
+            }else{
+                thresholdStart = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(
+                    MainActivityRMS.Pref_Threshold_Start, MainActivityRMS.Default_Threshold_Start)
+                thresholdRange = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(
+                    MainActivityRMS.Pref_Threshold_Range, MainActivityRMS.Default_Threshold_Range)
+                ratio = 2f
+                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
+                onThresholdStartChanged(thresholdStart)
+                onThresholdRangeChanged(thresholdRange)
+            }
         }
+
 
         initChart(chartOrigin)
         initChart(chartOrigin2)
@@ -329,6 +344,7 @@ class FragOriginData : BaseFragment() {
                                 entries.add(entry)
                             }else if (chart == chartOrigin2){
                                 if (value > -1*thresholdRange && value < thresholdRange){
+                                    Log.d(TAG, "thresholdRange:  ${thresholdRange} ratio : ${ratio}");
                                     value = value / ratio
                                 }
                                 val entry =

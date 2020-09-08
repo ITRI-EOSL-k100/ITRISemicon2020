@@ -278,12 +278,14 @@
         app:layout_constraintStart_toStartOf="@+id/channelGroup2"
         app:layout_constraintTop_toBottomOf="@+id/channelGroup2" />
 
-    <Button
-        android:id="@+id/buttonAuto"
+    <ToggleButton
+        android:id="@+id/toggleAuto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auto Threshold"
-        android:textSize="8sp"
+        android:checked="false"
+        android:text="ToggleButton"
+        android:textOff="Auto Off"
+        android:textOn="Auto On"
         app:layout_constraintStart_toEndOf="@+id/toggleStartAndStop"
         app:layout_constraintTop_toTopOf="@+id/toggleStartAndStop" />
 
