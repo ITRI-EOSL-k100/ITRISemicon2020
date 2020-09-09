@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_threshold_start"
+        android:title="THRESHOLD-START" />
+    <item
+        android:id="@+id/action_threshold_end"
+        android:title="THRESHOLD-END" />
+    <item
+        android:id="@+id/action_threshold_range"
+        android:title="THRESHOLD-RANGE" />
+    <item
+        android:id="@+id/action_duration"
+        android:title="DURATION" />
+    <item
+        android:id="@+id/action_channel_switch"
+        android:icon="@android:drawable/arrow_down_float"
+        android:title="Item"
+        app:showAsAction="always" />
+</menu>

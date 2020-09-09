@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.activity_main.progressScanning
 import kotlinx.android.synthetic.main.activity_main.textDeviceInfo
 import kotlinx.android.synthetic.main.activity_main.toggleRecord
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.frag_full_chart.*
 import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
@@ -99,6 +100,8 @@ class MainActivityRMS : AppCompatActivity() {
 
     //// 開始記錄時間
     private var timeStartRecord = 0L
+
+     var channelOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -482,151 +485,170 @@ class MainActivityRMS : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menu?.add(Menu.NONE, 1, Menu.NONE, Pref_Threshold_Start.toUpperCase(Locale.getDefault()))
+/*        menu?.add(Menu.NONE, 1, Menu.NONE, Pref_Threshold_Start.toUpperCase(Locale.getDefault()))
         menu?.add(Menu.NONE, 2, Menu.NONE, Pref_Threshold_End.toUpperCase(Locale.getDefault()))
         menu?.add(Menu.NONE, 3, Menu.NONE, Pref_Threshold_Range.toUpperCase(Locale.getDefault()))
         menu?.add(Menu.NONE, 4, Menu.NONE, Pref_Duration.toUpperCase(Locale.getDefault()))
+        menu?.add(Menu.NONE, 5, Menu.NONE, "channel switch")*/
+        menuInflater.inflate(R.menu.menu_mainactivityrms, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == 1) {
-            val threshold = getPreferences(Context.MODE_PRIVATE)
-                .getFloat(Pref_Threshold_Start, 0.0446f)
 
-            Dialog(this).apply {
-                setContentView(R.layout.dialog_input)
-                findViewById<TextView>(R.id.title).text = "設定閥值 (起始點)"
-                findViewById<TextView>(R.id.edit).text = threshold.toString()
-                findViewById<View>(R.id.buttonOK).setOnClickListener {
+        when(item.itemId){
+            R.id.action_threshold_start -> {
+                val threshold = getPreferences(Context.MODE_PRIVATE)
+                    .getFloat(Pref_Threshold_Start, 0.0446f)
 
-                    val im: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    im.hideSoftInputFromWindow(it.windowToken, 0)
+                Dialog(this).apply {
+                    setContentView(R.layout.dialog_input)
+                    findViewById<TextView>(R.id.title).text = "設定閥值 (起始點)"
+                    findViewById<TextView>(R.id.edit).text = threshold.toString()
+                    findViewById<View>(R.id.buttonOK).setOnClickListener {
 
-                    val input = findViewById<TextView>(R.id.edit).text.toString()
+                        val im: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        im.hideSoftInputFromWindow(it.windowToken, 0)
 
-                    try {
-                        val newThreshold = input.toFloat()
-                        getPreferences(Context.MODE_PRIVATE).edit()
-                            .putFloat(Pref_Threshold_Start, newThreshold)
-                            .apply()
+                        val input = findViewById<TextView>(R.id.edit).text.toString()
 
-                        currentPage?.onThresholdStartChanged(newThreshold)
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
+                        try {
+                            val newThreshold = input.toFloat()
+                            getPreferences(Context.MODE_PRIVATE).edit()
+                                .putFloat(Pref_Threshold_Start, newThreshold)
+                                .apply()
+
+                            currentPage?.onThresholdStartChanged(newThreshold)
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                        }
+                        dismiss()
                     }
-                    dismiss()
+                    findViewById<View>(R.id.buttonCancel).setOnClickListener {
+                        dismiss()
+                    }
+                }.also {
+                    it.show()
                 }
-                findViewById<View>(R.id.buttonCancel).setOnClickListener {
-                    dismiss()
-                }
-            }.also {
-                it.show()
             }
-        } else if (item.itemId == 2){
-            val threshold = getPreferences(Context.MODE_PRIVATE)
-                .getFloat(Pref_Threshold_End, 0.0446f)
 
-            Dialog(this).apply {
-                setContentView(R.layout.dialog_input)
-                findViewById<TextView>(R.id.title).text = "設定閥值 (結束點)"
-                findViewById<TextView>(R.id.edit).text = threshold.toString()
-                findViewById<View>(R.id.buttonOK).setOnClickListener {
+            R.id.action_threshold_end -> {
+                val threshold = getPreferences(Context.MODE_PRIVATE)
+                    .getFloat(Pref_Threshold_End, 0.0446f)
 
-                    val im: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    im.hideSoftInputFromWindow(it.windowToken, 0)
+                Dialog(this).apply {
+                    setContentView(R.layout.dialog_input)
+                    findViewById<TextView>(R.id.title).text = "設定閥值 (結束點)"
+                    findViewById<TextView>(R.id.edit).text = threshold.toString()
+                    findViewById<View>(R.id.buttonOK).setOnClickListener {
 
-                    val input = findViewById<TextView>(R.id.edit).text.toString()
+                        val im: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        im.hideSoftInputFromWindow(it.windowToken, 0)
 
-                    try {
-                        val newThreshold = input.toFloat()
-                        getPreferences(Context.MODE_PRIVATE).edit()
-                            .putFloat(Pref_Threshold_End, newThreshold)
-                            .apply()
+                        val input = findViewById<TextView>(R.id.edit).text.toString()
 
-                        currentPage?.onThresholdEndChanged(newThreshold)
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
+                        try {
+                            val newThreshold = input.toFloat()
+                            getPreferences(Context.MODE_PRIVATE).edit()
+                                .putFloat(Pref_Threshold_End, newThreshold)
+                                .apply()
+
+                            currentPage?.onThresholdEndChanged(newThreshold)
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                        }
+                        dismiss()
                     }
-                    dismiss()
+                    findViewById<View>(R.id.buttonCancel).setOnClickListener {
+                        dismiss()
+                    }
+                }.also {
+                    it.show()
                 }
-                findViewById<View>(R.id.buttonCancel).setOnClickListener {
-                    dismiss()
-                }
-            }.also {
-                it.show()
             }
-        }else if(item.itemId == 3){
-            //getSharePreference Setting
-            val threshold = getPreferences(Context.MODE_PRIVATE)
-                .getFloat(Pref_Threshold_Range, 0.2f)
-            // Dialog Setting
-            Dialog(this).apply {
-                setContentView(R.layout.dialog_input)
-                findViewById<TextView>(R.id.title).text = "設定閥值 (雜訊抑制)"
-                findViewById<TextView>(R.id.edit).text = threshold.toString()
-                findViewById<View>(R.id.buttonOK).setOnClickListener {
+            R.id.action_threshold_range -> {
+                //getSharePreference Setting
+                val threshold = getPreferences(Context.MODE_PRIVATE)
+                    .getFloat(Pref_Threshold_Range, 0.2f)
+                // Dialog Setting
+                Dialog(this).apply {
+                    setContentView(R.layout.dialog_input)
+                    findViewById<TextView>(R.id.title).text = "設定閥值 (雜訊抑制)"
+                    findViewById<TextView>(R.id.edit).text = threshold.toString()
+                    findViewById<View>(R.id.buttonOK).setOnClickListener {
 
-                    val im: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    im.hideSoftInputFromWindow(it.windowToken, 0)
+                        val im: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        im.hideSoftInputFromWindow(it.windowToken, 0)
 
-                    val input = findViewById<TextView>(R.id.edit).text.toString()
+                        val input = findViewById<TextView>(R.id.edit).text.toString()
 
-                    try {
-                        val newThreshold = input.toFloat()
-                        getPreferences(Context.MODE_PRIVATE).edit()
-                            .putFloat(Pref_Threshold_Range, newThreshold)
-                            .apply()
+                        try {
+                            val newThreshold = input.toFloat()
+                            getPreferences(Context.MODE_PRIVATE).edit()
+                                .putFloat(Pref_Threshold_Range, newThreshold)
+                                .apply()
 
-                        currentPage?.onThresholdRangeChanged(newThreshold)
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
+                            currentPage?.onThresholdRangeChanged(newThreshold)
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                        }
+                        dismiss()
                     }
-                    dismiss()
+                    findViewById<View>(R.id.buttonCancel).setOnClickListener {
+                        dismiss()
+                    }
+                }.also {
+                    it.show()
                 }
-                findViewById<View>(R.id.buttonCancel).setOnClickListener {
-                    dismiss()
-                }
-            }.also {
-                it.show()
             }
-        }else if(item.itemId == 4){
-            //getSharePreference Setting
-            val duration = getPreferences(Context.MODE_PRIVATE)
-                .getFloat(Pref_Duration, 50f)
-            // Dialog Setting
-            Dialog(this).apply {
-                setContentView(R.layout.dialog_input)
-                findViewById<TextView>(R.id.title).text = "設定間距"
-                findViewById<TextView>(R.id.edit).text = duration.toString()
-                findViewById<View>(R.id.buttonOK).setOnClickListener {
+            R.id.action_duration -> {
+                //getSharePreference Setting
+                val duration = getPreferences(Context.MODE_PRIVATE)
+                    .getFloat(Pref_Duration, 50f)
+                // Dialog Setting
+                Dialog(this).apply {
+                    setContentView(R.layout.dialog_input)
+                    findViewById<TextView>(R.id.title).text = "設定間距"
+                    findViewById<TextView>(R.id.edit).text = duration.toString()
+                    findViewById<View>(R.id.buttonOK).setOnClickListener {
 
-                    val im: InputMethodManager =
-                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    im.hideSoftInputFromWindow(it.windowToken, 0)
+                        val im: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        im.hideSoftInputFromWindow(it.windowToken, 0)
 
-                    val input = findViewById<TextView>(R.id.edit).text.toString()
+                        val input = findViewById<TextView>(R.id.edit).text.toString()
 
-                    try {
-                        val newDuration = input.toFloat()
-                        getPreferences(Context.MODE_PRIVATE).edit()
-                            .putFloat(Pref_Duration, newDuration)
-                            .apply()
+                        try {
+                            val newDuration = input.toFloat()
+                            getPreferences(Context.MODE_PRIVATE).edit()
+                                .putFloat(Pref_Duration, newDuration)
+                                .apply()
 
-                        currentPage?.onDurationChanged(newDuration)
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
+                            currentPage?.onDurationChanged(newDuration)
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                        }
+                        dismiss()
                     }
-                    dismiss()
+                    findViewById<View>(R.id.buttonCancel).setOnClickListener {
+                        dismiss()
+                    }
+                }.also {
+                    it.show()
                 }
-                findViewById<View>(R.id.buttonCancel).setOnClickListener {
-                    dismiss()
-                }
-            }.also {
-                it.show()
+            }
+            R.id.action_channel_switch -> {
+                channelOpen = !channelOpen
+                checkBox1?.isChecked = channelOpen
+                checkBox2?.isChecked = channelOpen
+                checkBox3?.isChecked = channelOpen
+                checkBox4?.isChecked = channelOpen
+                checkBox5?.isChecked = channelOpen
+                checkBox6?.isChecked = channelOpen
+//            Log.d("checkBox", ": ${channelOpen}");
             }
         }
         return super.onOptionsItemSelected(item)

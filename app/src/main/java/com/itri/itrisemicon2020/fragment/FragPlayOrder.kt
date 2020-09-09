@@ -121,36 +121,71 @@ class FragPlayOrder : BaseFragment() {
             i = 0 // orderString index reset
         }
         //labelOrderCurrentArray initial setting
-        labelOrderCurrent1?.run {
-            post {
-                text = orderStringMine[0].toString()
+        Log.d(TAG, "Mine: ${orderStringMine.size }");
+        if (orderStringMine.size  == 6){
+            labelOrderCurrent1?.run {
+                post {
+                    text = orderStringMine[0].toString()
+                }
+            }
+            labelOrderCurrent2?.run {
+                post {
+                    text = orderStringMine[1].toString()
+                }
+            }
+            labelOrderCurrent3?.run {
+                post {
+                    text = orderStringMine[2].toString()
+                }
+            }
+            labelOrderCurrent4?.run {
+                post {
+                    text = orderStringMine[3].toString()
+                }
+            }
+            labelOrderCurrent5?.run {
+                post {
+                    text = orderStringMine[4].toString()
+                }
+            }
+            labelOrderCurrent6?.run {
+                post {
+                    text = orderStringMine[5].toString()
+                }
+            }
+        }else{
+            labelOrderCurrent1?.run {
+                post {
+                    text = "請繼續量測，資料不足"
+                }
+            }
+            labelOrderCurrent2?.run {
+                post {
+                    text = ""
+                }
+            }
+            labelOrderCurrent3?.run {
+                post {
+                    text = ""
+                }
+            }
+            labelOrderCurrent4?.run {
+                post {
+                    text = ""
+                }
+            }
+            labelOrderCurrent5?.run {
+                post {
+                    text = ""
+                }
+            }
+            labelOrderCurrent6?.run {
+                post {
+                    text = ""
+                }
             }
         }
-        labelOrderCurrent2?.run {
-            post {
-                text = orderStringMine[1].toString()
-            }
-        }
-        labelOrderCurrent3?.run {
-            post {
-                text = orderStringMine[2].toString()
-            }
-        }
-        labelOrderCurrent4?.run {
-            post {
-                text = orderStringMine[3].toString()
-            }
-        }
-        labelOrderCurrent5?.run {
-            post {
-                text = orderStringMine[4].toString()
-            }
-        }
-        labelOrderCurrent6?.run {
-            post {
-                text = orderStringMine[5].toString()
-            }
-        }
+
 
         frameCurrent?.run {
             post {
@@ -238,7 +273,7 @@ class FragPlayOrder : BaseFragment() {
                     }*/
             }
         }
-
+        resetFrame()
     }
 
     private fun updateOrder(defaultOrder: IntArray) {

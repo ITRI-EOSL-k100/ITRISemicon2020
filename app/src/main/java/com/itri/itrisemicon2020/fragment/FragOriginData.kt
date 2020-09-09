@@ -115,14 +115,14 @@ class FragOriginData : BaseFragment() {
                 thresholdRange = textMaxRms.text.toString().toFloat() * 0.5f
                 onThresholdRangeChanged(thresholdRange)
                 ratio = 5f
-                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
+//                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
             }else{
                 thresholdStart = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(
                     MainActivityRMS.Pref_Threshold_Start, MainActivityRMS.Default_Threshold_Start)
                 thresholdRange = requireActivity().getPreferences(Context.MODE_PRIVATE).getFloat(
                     MainActivityRMS.Pref_Threshold_Range, MainActivityRMS.Default_Threshold_Range)
                 ratio = 2f
-                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
+//                Log.d(TAG, "thresholdStart: $thresholdStart thresholdRange : $thresholdRange ratio : $ratio")
                 onThresholdStartChanged(thresholdStart)
                 onThresholdRangeChanged(thresholdRange)
             }
