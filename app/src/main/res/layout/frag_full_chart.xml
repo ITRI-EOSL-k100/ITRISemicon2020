@@ -146,7 +146,6 @@
         android:backgroundTint="#4C4A4A"
         android:buttonTint="#3E3D3D"
         android:checked="false"
-        android:clickable="false"
         android:shadowColor="#3E3C3C"
         android:text="開啟"
         android:textColor="#535050"

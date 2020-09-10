@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="SNR = "
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/textOriginTitleCenter"
         app:layout_constraintTop_toTopOf="@+id/textOriginTitleCenter" />
 
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="SNR = "
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/textOriginTitleCenter2"
         app:layout_constraintTop_toTopOf="@+id/textOriginTitleCenter2" />
 
