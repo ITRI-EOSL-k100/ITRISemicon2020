@@ -291,4 +291,16 @@
         app:layout_constraintStart_toEndOf="@+id/toggleStartAndStop"
         app:layout_constraintTop_toTopOf="@+id/toggleStartAndStop" />
 
+    <TextView
+        android:id="@+id/battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:text="裝置電量 : 計算中..."
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/textOriginTitleCenter"
+        app:layout_constraintStart_toEndOf="@+id/channelGroup1"
+        app:layout_constraintTop_toTopOf="@+id/textOriginTitleCenter" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,12 +27,14 @@ import kotlin.math.max
  */
 class FragOriginData : BaseFragment() {
 
+    private var batteryIndex = 0
     private var ratio: Float = 2f
     private val showRange = 1000
     private val rmsFreq = 20        // RMS n
 
     private var channelSelection1 = 1
     private var channelSelection2 = 1
+    private var channelBattery = 7 // 20200910 channel battery setting
 
     private var chart1syncing = false
     private var chart2syncing = false
@@ -56,6 +58,27 @@ class FragOriginData : BaseFragment() {
 
         showChart(chartOrigin, channelSelection1)
         showChart(chartOrigin2, channelSelection2)
+        showBattery(channelBattery)
+    }
+
+    private fun showBattery(channelBattery: Int) {
+        val channelBatteryList = this.channelDataList?.get(channelBattery)
+        Log.d(TAG, "channelBatteryList : ${channelBatteryList?.last?.value?.plus(1500)}")
+        batteryIndex = batteryIndex +1
+        Log.d(TAG, "batteryIndex: ${batteryIndex % 100} ");
+
+        if (channelBatteryList?.last?.value != null && batteryIndex % 100 == 0){
+            var power : Float = (channelBatteryList?.last?.value!! +1500) * 3.9f/2040f*100f
+//            Log.d(TAG, "power: $power")
+            if (power!! > 430)
+                power = 420f
+            else if (power < 280)
+                power = 280f
+            power = (power - 280) / 140 * 100
+            battery.text = "裝置電量 : ${power.toInt()} %"
+            batteryIndex = 0
+        }
+
     }
 
     override fun onDataChangedComplete() {

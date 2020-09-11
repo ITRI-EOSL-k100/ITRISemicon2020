@@ -178,7 +178,7 @@ class MainActivityRMS : AppCompatActivity() {
 
                     // data bytes in to string
                     val bytes2Text = String(bytes)
-
+//                    Log.d("bytes2Text", "bytes2Text: $bytes2Text");
                     val textArr = bytes2Text.split("\n")
                     if (serialAsciiBuffer.isNotEmpty()) {
                         serialAsciiBuffer.append(textArr[0])
@@ -218,7 +218,6 @@ class MainActivityRMS : AppCompatActivity() {
                         }
 //                        Log.d("fullDataList", "fullDataList: ${fullDataList.size}");//10s 5186 筆 data
                         fullDataList.addAll(tempList)
-
                         if (fullDataList.size > 25) {
                             for (record in tempList) {
                                 if (channelDataList.containsKey(record.channel)) {
@@ -229,7 +228,7 @@ class MainActivityRMS : AppCompatActivity() {
                                     }
                                 }
                             }
-                            Log.d("MainActivity", "${channelDataList.keys}");
+                            Log.d("MainActivity", "${channelDataList.keys}")
                             currentPage?.notifyDataChanged()
                         }
                     }
