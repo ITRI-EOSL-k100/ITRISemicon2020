@@ -92,7 +92,7 @@ class MainActivityRMS : AppCompatActivity() {
     private val channelDataList = HashMap<Int, LinkedList<ChannelRecord>>()
 
     //// 分頁
-    private val fragments = arrayOf(FragOriginData(), FragFullChart(), FragPlayOrder())
+    private val fragments = arrayOf(FragOriginData(), FragPlayOrder(), FragFullChart())
     private var currentPage: BaseFragment? = null
 
     //// 藍芽資料串接 Buffer
@@ -340,8 +340,8 @@ class MainActivityRMS : AppCompatActivity() {
             tab.setIcon(
                 when (position) {
                     0 -> R.drawable.tab_origin_data
-                    1 -> R.drawable.tab_full_chart
-                    2 -> R.drawable.tab_play_order
+                    1 -> R.drawable.tab_play_order
+                    2 -> R.drawable.tab_full_chart
                     else -> 0
                 }
             )

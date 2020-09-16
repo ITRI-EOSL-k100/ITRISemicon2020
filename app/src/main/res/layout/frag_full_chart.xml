@@ -11,7 +11,7 @@
         android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="Channel 1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/chart1"

@@ -65,9 +65,9 @@ class FragOriginData : BaseFragment() {
         val channelBatteryList = this.channelDataList?.get(channelBattery)
         Log.d(TAG, "channelBatteryList : ${channelBatteryList?.last?.value?.plus(1500)}")
         batteryIndex = batteryIndex +1
-        Log.d(TAG, "batteryIndex: ${batteryIndex % 100} ");
+        Log.d(TAG, "batteryIndex: ${batteryIndex % 100000} ");
 
-        if (channelBatteryList?.last?.value != null && batteryIndex % 100 == 0){
+        if (channelBatteryList?.last?.value != null && batteryIndex % 100000== 0){
             var power : Float = (channelBatteryList?.last?.value!! +1500) * 3.9f/2040f*100f
 //            Log.d(TAG, "power: $power")
             if (power!! > 430)
@@ -367,7 +367,7 @@ class FragOriginData : BaseFragment() {
                                 entries.add(entry)
                             }else if (chart == chartOrigin2){
                                 if (value > -1*thresholdRange && value < thresholdRange){
-                                    Log.d(TAG, "thresholdRange:  ${thresholdRange} ratio : ${ratio}");
+//                                    Log.d(TAG, "thresholdRange:  ${thresholdRange} ratio : ${ratio}");
                                     value = value / ratio
                                 }
                                 val entry =
