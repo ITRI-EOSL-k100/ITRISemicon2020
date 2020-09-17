@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.itri.itrisemicon2020.R
+import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.frag_full_chart.*
 import kotlinx.android.synthetic.main.frag_play_order.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.math.roundToInt
 
@@ -19,9 +23,13 @@ import kotlin.math.roundToInt
  */
 class FragPlayOrder : BaseFragment() {
 
+    private lateinit var defaultOrder: IntArray
+    private lateinit var currentOrder: IntArray
+    private var order  = mutableListOf<Int>()
     private lateinit var labelOrderRequiredArray: Array<TextView>
     private lateinit var labelOrderCurrentArray: Array<TextView>
     private var orderIndex: Int = 0
+    private var crowns = ArrayList<ImageView>()
 
     /**
      * 1 -> 左 股四頭肌 b_m_b_l
@@ -84,6 +92,10 @@ class FragPlayOrder : BaseFragment() {
     }
 
     private fun resetFrame() {
+        order.clear()
+        crowns.forEach { imageView ->
+            imageView.visibility = View.INVISIBLE
+        }
         val channelSortedSet = TreeSet<ChannelTimeInfo>(kotlin.Comparator { o1, o2 -> o1.time.compareTo(o2.time) })
         channelDataList?.entries?.forEach { entry ->
            /* // 啟動點 first
@@ -115,13 +127,17 @@ class FragPlayOrder : BaseFragment() {
 
                 if(muscleNameMap[channelTimeInfo.ch] != null){
                     orderStringMine.add(i, "${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
+                    order.add(channelTimeInfo.ch)
                     i++
                 }
+
             }
+//            Log.d(TAG, "order: $order");
+                currentOrder = intArrayOf(order[0], order[1], order[2], order[3], order[4], order[5])
             i = 0 // orderString index reset
         }
         //labelOrderCurrentArray initial setting
-        Log.d(TAG, "Mine: ${orderStringMine.size }");
+//        Log.d(TAG, "Mine: ${orderStringMine.size }");
         if (orderStringMine.size  == 6){
             labelOrderCurrent1?.run {
                 post {
@@ -199,12 +215,20 @@ class FragPlayOrder : BaseFragment() {
                 isEnabled = true
             }
         }
+        //crown imageView setting
+        for (i in 0..currentOrder.size-1){
+            if (currentOrder[i] == defaultOrder[i]){
+                crowns[i].visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //         j = 0 // required order initial setting
-         labelOrderCurrentArray =
+        crowns.addAll(arrayOf(crown1, crown2, crown3, crown4, crown5, crown6))
+
+        labelOrderCurrentArray =
             arrayOf<TextView>(
                 labelOrderCurrent1,
                 labelOrderCurrent2,
@@ -222,7 +246,7 @@ class FragPlayOrder : BaseFragment() {
                 labelOrderRequired5,
                 labelOrderRequired6
             )
-        var defaultOrder = intArrayOf(6, 1, 5, 3, 2, 4)
+         defaultOrder = intArrayOf(6, 1, 5, 3, 2, 4)
         updateOrder(defaultOrder)
         imageViewMode.setImageResource(R.drawable.easy)
         // mode choose
@@ -249,29 +273,40 @@ class FragPlayOrder : BaseFragment() {
         }
 
         buttonStart?.setOnClickListener {
-            drawableRequired.stop()
-            drawableRequired.start()
             // first textview textcolor red color
             textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 0)
-            if (frameCurrent?.drawable is AnimationDrawable) {
-                (frameCurrent?.drawable as AnimationDrawable).stop()
-                (frameCurrent?.drawable as AnimationDrawable).start()
-                // imageView  and textview Synchronize
-                object : CountDownTimer(6000, 1000) {
-                    override fun onTick(p0: Long) {
-                        textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray ,6 - (p0/1000f).roundToInt())
-                        Log.d(TAG, "times: ${6 - (p0/1000f).roundToInt()}");
-                    }
 
-                    override fun onFinish() {
-                        textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 6)
-                    }
+                if (frameCurrent?.drawable is AnimationDrawable) {
 
-                }.start()
-                /*    Timer("countdown", true).schedule(1000) {
-                        textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 1)
-                    }*/
-            }
+                    // imageView  and textview Synchronize
+                    object : CountDownTimer(6000 * 5, 1000) {
+                        override fun onTick(p0: Long) {
+                            buttonStart.isEnabled = false
+                            var index =  30 - (p0/1000f).roundToInt()
+                            Log.d(TAG, "index: ${index % 6}");
+                            if (index % 6 == 0){
+                                drawableRequired.stop()
+                                drawableRequired.start()
+                                (frameCurrent?.drawable as AnimationDrawable).stop()
+                                (frameCurrent?.drawable as AnimationDrawable).start()
+                                textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 0)
+                            }else{
+                                textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , index % 6)
+                            }
+//                            textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray ,6 - (p0/1000f).roundToInt())
+                        }
+
+                        override fun onFinish() {
+                            textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 6)
+                            buttonStart.isEnabled = true
+                        }
+
+                    }.start()
+                    /*    Timer("countdown", true).schedule(1000) {
+                            textColorSetting(labelOrderCurrentArray, labelOrderRequiredArray , 1)
+                        }*/
+                }
+
         }
         resetFrame()
     }
