@@ -15,11 +15,12 @@
             android:id="@+id/textDeviceInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="111dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:textColor="#4A4"
+            android:textSize="12sp"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="@+id/buttonScan"
+            app:layout_constraintStart_toEndOf="@+id/progressScanning"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="DeviceName\n02:00:00:00:00:00" />
 

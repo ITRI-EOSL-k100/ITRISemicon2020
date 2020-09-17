@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.util.toRange
 import com.github.mikephil.charting.charts.LineChart
@@ -65,9 +67,9 @@ class FragOriginData : BaseFragment() {
         val channelBatteryList = this.channelDataList?.get(channelBattery)
         Log.d(TAG, "channelBatteryList : ${channelBatteryList?.last?.value?.plus(1500)}")
         batteryIndex = batteryIndex +1
-        Log.d(TAG, "batteryIndex: ${batteryIndex % 100000} ");
+        Log.d(TAG, "batteryIndex: ${batteryIndex % 10000} ");
 
-        if (channelBatteryList?.last?.value != null && batteryIndex % 100000== 0){
+        if (channelBatteryList?.last?.value != null && batteryIndex % 10000== 0){
             var power : Float = (channelBatteryList?.last?.value!! +1500) * 3.9f/2040f*100f
 //            Log.d(TAG, "power: $power")
             if (power!! > 430)
@@ -425,4 +427,6 @@ class FragOriginData : BaseFragment() {
             }
         }
     }
+
+
 }
