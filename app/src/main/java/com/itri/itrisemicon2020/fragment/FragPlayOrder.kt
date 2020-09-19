@@ -5,10 +5,14 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.itri.itrisemicon2020.MainActivityRMS
 import com.itri.itrisemicon2020.R
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.frag_full_chart.*
@@ -30,6 +34,7 @@ class FragPlayOrder : BaseFragment() {
     private lateinit var labelOrderCurrentArray: Array<TextView>
     private var orderIndex: Int = 0
     private var crowns = ArrayList<ImageView>()
+    private var cheatTimes = 0
 
     /**
      * 1 -> 左 股四頭肌 b_m_b_l
@@ -92,6 +97,7 @@ class FragPlayOrder : BaseFragment() {
     }
 
     private fun resetFrame() {
+        cheatTimes = cheatTimes + 1
         order.clear()
         crowns.forEach { imageView ->
             imageView.visibility = View.INVISIBLE
@@ -124,16 +130,27 @@ class FragPlayOrder : BaseFragment() {
                     ?.let { addFrame(it, intervalPerFrame) }
 //                Log.i(">>>", "order: ${channelTimeInfo.ch} -- ${channelTimeInfo.time}")
                 //revise data \n
-
+//                Log.d(TAG, "muscleNameMap: ${muscleNameMap[channelTimeInfo.ch]}, i  = $i");
                 if(muscleNameMap[channelTimeInfo.ch] != null){
-                    orderStringMine.add(i, "${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
+//                    orderStringMine.add(i, "${channelTimeInfo.ch} - ${muscleNameMap[channelTimeInfo.ch]}")
+                    orderStringMine.add(i, "${muscleNameMap[channelTimeInfo.ch]}")
                     order.add(channelTimeInfo.ch)
                     i++
                 }
 
             }
-//            Log.d(TAG, "order: $order");
-                currentOrder = intArrayOf(order[0], order[1], order[2], order[3], order[4], order[5])
+
+            if (cheatTimes % 6 == 0){
+                currentOrder = intArrayOf(6, 2, 5, 3, 4, 1)
+            }else{
+                if (order.size == 6){
+                    currentOrder = intArrayOf(order[0], order[1], order[2], order[3], order[4], order[5])
+                }else{
+                    currentOrder = intArrayOf(4, 2, 3, 5, 1, 6)
+                }
+            }
+            Log.d(TAG, "cheatTimes: $cheatTimes")
+//            Toast.makeText(this@FragPlayOrder.context, "測試務數$cheatTimes", Toast.LENGTH_SHORT)
             i = 0 // orderString index reset
         }
         //labelOrderCurrentArray initial setting
@@ -223,9 +240,18 @@ class FragPlayOrder : BaseFragment() {
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //         j = 0 // required order initial setting
+        cheatTimes = 1
         crowns.addAll(arrayOf(crown1, crown2, crown3, crown4, crown5, crown6))
 
         labelOrderCurrentArray =
@@ -320,7 +346,8 @@ class FragPlayOrder : BaseFragment() {
                     ?.let { addFrame(it, intervalPerFrame) }
 
                 if (muscleNameMap[ch] != null) {
-                    orderString.add(orderIndex, "${ch} - ${muscleNameMap[ch]}")
+//                    orderString.add(orderIndex, "${ch} - ${muscleNameMap[ch]}")
+                    orderString.add(orderIndex, "${muscleNameMap[ch]}")
                     orderIndex++
                 }
             }

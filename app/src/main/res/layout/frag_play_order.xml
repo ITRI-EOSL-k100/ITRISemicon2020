@@ -72,12 +72,12 @@
         android:id="@+id/labelOrderCurrent1"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="24dp"
         android:lineSpacingMultiplier=".8"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/frameCurrent"
-        app:layout_constraintTop_toBottomOf="@id/frameCurrent" />
+        app:layout_constraintTop_toTopOf="@+id/crown1" />
 
     <TextView
         android:id="@+id/labelRequired"
@@ -106,23 +106,21 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="4dp"
-        android:layout_marginTop="4dp"
         app:layout_constraintDimensionRatio="w, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/frameCurrent"
-        app:layout_constraintTop_toBottomOf="@id/labelRequired"
+        app:layout_constraintTop_toTopOf="@+id/frameCurrentBackground"
         app:srcCompat="@drawable/b" />
 
     <TextView
         android:id="@+id/labelOrderRequired1"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="4dp"
         android:lineSpacingMultiplier=".8"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/frameRequired"
-        app:layout_constraintTop_toBottomOf="@id/frameRequired" />
+        app:layout_constraintTop_toBottomOf="@+id/frameRequiredBackground" />
 
     <TextView
         android:id="@+id/labelOrderRequired2"
@@ -191,10 +189,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="打擊初速 : \n (Swing Speed)"
         app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberPassword"
-        app:layout_constraintStart_toStartOf="@+id/labelOrderCurrent1" />
+        app:layout_constraintStart_toStartOf="@+id/frameCurrentBackground" />
 
     <TextView
         android:id="@+id/textView2"
@@ -290,15 +287,15 @@
         android:layout_height="107dp"
         app:layout_constraintBottom_toTopOf="@+id/mode"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameRequiredBackground"
         app:srcCompat="@drawable/easy" />
 
     <ImageView
         android:id="@+id/crown1"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/frameCurrentBackground"
         app:layout_constraintTop_toTopOf="@+id/labelOrderRequired1"
         app:srcCompat="@drawable/crown" />
 
@@ -306,9 +303,8 @@
         android:id="@+id/crown2"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/crown1"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired1"
         app:srcCompat="@drawable/crown" />
 
@@ -316,9 +312,8 @@
         android:id="@+id/crown3"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/crown2"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired2"
         app:srcCompat="@drawable/crown" />
 
@@ -326,9 +321,8 @@
         android:id="@+id/crown4"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/crown3"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired3"
         app:srcCompat="@drawable/crown" />
 
@@ -336,9 +330,8 @@
         android:id="@+id/crown5"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/crown4"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired4"
         app:srcCompat="@drawable/crown" />
 
@@ -346,9 +339,8 @@
         android:id="@+id/crown6"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginEnd="24dp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/labelOrderRequired1"
+        app:layout_constraintStart_toStartOf="@+id/crown5"
         app:layout_constraintTop_toBottomOf="@+id/labelOrderRequired5"
         app:srcCompat="@drawable/crown" />
 
